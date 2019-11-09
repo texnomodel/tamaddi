@@ -810,15 +810,16 @@ public function actionTxfdf()
             $nkirit=Yii::$app->request->post('nkirit');$nkirit=+$nkirit;
             $pkirit=Yii::$app->request->post('pkirit');$pkirit=+$pkirit;
             $bkirit=Yii::$app->request->post('bkirit');$bkirit=+$bkirit;
+            $summa=+$summa;
             if($nkirit>0){
-                Asos::updateAll(['sum_naqd_ch'=>$summa,'sum_plast_ch'=>$summa,'sum_epos_ch'=>$summa],['id'=>$jid]);
-                
+                Asos::updateAll(['sum_naqd_ch'=>$nkirit,'sum_plast_ch'=>$summa-nkirit,'sum_epos_ch'=>0],['id'=>$jid]);
             }
 
-            Asos::updateAll(['sum_naqd_ch'=>$summa,'sum_plast_ch'=>$summa,'sum_epos_ch'=>$summa],['id'=>$jid]);
+            //Asos::updateAll(['sum_naqd_ch'=>$summa,'sum_plast_ch'=>$summa,'sum_epos_ch'=>$summa],['id'=>$jid]);
             
         }
         if(Yii::$app->request->post('oper'))   {return 'ok';}
+        if(Yii::$app->request->post('taqsimlash'))   {return 'ok';}
         $date = date("Y-m-d");
         $date1 = Yii::$app->request->post('date1');
         $date2 = Yii::$app->request->post('date2');
