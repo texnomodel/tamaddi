@@ -5,7 +5,7 @@ use frontend\models\Asos;
 use frontend\models\AsosSlave;
 use frontend\models\User;
 use kartik\date\DatePicker;
-$this->title="";
+$this->title="2";
 $date = date('Y-m-d');
 ?>
 <div class="client-qarz">
@@ -124,7 +124,7 @@ foreach ($s as $item):
 </div>
 </td></tr>
 
-<?php //echo "<tr><td colspan=\"11\"><div id=\"divlk$item[id]\" style=\"visibility:hidden;display:none;background-color:#B6E8F8 ;\"></div></td></tr>"; 
+<?php //echo "<tr><td colspan=\"11\"><div id=\"divlk$item[id]\" style=\"visibility:hidden;display:none;background-color:#B6E8F8 ;\"></div></td></tr>";
 ?>
 
 <?php endforeach;?>
@@ -147,14 +147,14 @@ $('.fa-refresh').on('click', function(e){
             success: function(data){
                 if($bu==="Naqd"){
                     $('.ntxt'+jid).text($(".sum"+jid).html());$('.ptxt'+jid).text('');$('.btxt'+jid).text('');
-                }                      
+                }
                 if($bu==="Plastik"){
                     $('.ptxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.btxt'+jid).text('');
-                }                      
+                }
                 if($bu==="Bank"){
                     $('.btxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.ptxt'+jid).text('');
                 }
-                //alert($bu);                      
+                //alert($bu);
             }
             ,error: function(){
                 alert("xatolik yuz berdi !!!");
@@ -172,20 +172,20 @@ $('.fa-refresh').on('click', function(e){
             success: function(data){
                 if($bu==="Naqd"){
                     $('.ntxt'+jid).text($(".sum"+jid).html());$('.ptxt'+jid).text('');$('.btxt'+jid).text('');
-                }                      
+                }
                 if($bu==="Plastik"){
                     $('.ptxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.btxt'+jid).text('');
-                }                      
+                }
                 if($bu==="Bank"){
                     $('.btxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.ptxt'+jid).text('');
                 }
-                //alert($bu);                      
+                //alert($bu);
             }
             ,error: function(){
                 alert("xatolik yuz berdi !!!");
             }
         });
-    });   
+    });
 	function do_ajax_fnc(img,mid,flag,divname,och){
 	  	divel = document.getElementById(divname);
 		//if (!divel){return;}
