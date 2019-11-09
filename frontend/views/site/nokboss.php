@@ -5,7 +5,7 @@ use frontend\models\Asos;
 use frontend\models\AsosSlave;
 use frontend\models\User;
 use kartik\date\DatePicker;
-$this->title="3";
+$this->title="Chek";
 $date = date('Y-m-d');
 ?>
 <div class="client-qarz">
