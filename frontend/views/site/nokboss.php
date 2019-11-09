@@ -12,8 +12,7 @@ $date = date('Y-m-d');
     <div class="row">
         <?php ActiveForm::begin()?>
         <div class="col-md-3 client-qarz__date">
-            <?php
-            echo DatePicker::widget([
+            <?php echo DatePicker::widget([
                 'name' => 'date1',
                 'value' => Yii::$app->request->post('date1')?Yii::$app->request->post('date1'):date('Y-m-d'),
                 'options' => ['placeholder' => 'Sanani tanlang...'],
@@ -98,27 +97,19 @@ foreach ($s as $item):
         <td><input type="number" name="he" value="" class="bkirit<?=$item[id]?>"></td>
     </tr>
     <tr id="<?=$item[id]?>">
-        <td>
-            <button class="btn btn-success">Saqlash</button>
-        </td>
-        <td></td>
-
-        <td>
-        <i class="fa fa-refresh"  style="font-size:32px;color:red">yangilash</i>
-        </td>
+        <td><button class="btn btn-success">Saqlash</button></td><td></td>
+        <td><i class="fa fa-refresh"  style="font-size:32px;color:red"></i></td>
     </tr>
 </table>
 <table class="table table-bordered">
 	<tr><td>Nomi</td><td>Soni</td><td>Narxi</td><td>Summasi</td><tr>
-<?php foreach ($ss as $so){
-?>
+<?php foreach ($ss as $so){?>
 	<tr>
-	<td><?= $so['tovar_nom']?></td>
-	<td><?= $so['kol']?></td>
-	<td><?= $so['sotish']?></td>
-	<td><?= $so['summa_all']?></td>
+        <td><?= $so['tovar_nom']?></td>
+        <td><?= $so['kol']?></td>
+        <td><?= $so['sotish']?></td>
+        <td><?= $so['summa_all']?></td>
 	</tr>
-
 <?php }?>
 </table>
 </div>
@@ -133,84 +124,88 @@ foreach ($s as $item):
 </div>
 <script type="text/javascript">
 $('.fa-refresh').on('click', function(e){
-        e.preventDefault();
-        jid=$(this).parent().parent().attr('id');$summa=$(".sum"+jid).html();
-        $nkirit=$(".nkirit"+jid).val();$pkirit=$(".pkirit"+jid).val();$bkirit=$(".bkirit"+jid).val();
-        if($nkirit+$pkirit+$bkirit==''){alert('Summa kiritilmagan');}
-        var summan = $(".sum"+jid).html();summan=0+summan;
-        var nkiritn = $(".nkirit"+jid).val();nkiritn=0+nkiritn;
-        if(nkiritn>summan){alert('Summa no`to`gri');}
-        $.ajax({
-            url: '<?php echo Yii::$app->request->baseUrl. '/site/nokboss' ?>',
-            type: 'POST',
-            data: {oper:"taqsimlash",jid:jid,summa:$(".sum"+jid).html(),nkirit:$nkirit,pkirit:$pkirit,bkirit:$bkirit},
-            success: function(data){
-                if($bu==="Naqd"){
-                    $('.ntxt'+jid).text($(".sum"+jid).html());$('.ptxt'+jid).text('');$('.btxt'+jid).text('');
-                }
-                if($bu==="Plastik"){
-                    $('.ptxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.btxt'+jid).text('');
-                }
-                if($bu==="Bank"){
-                    $('.btxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.ptxt'+jid).text('');
-                }
-                //alert($bu);
+    e.preventDefault();
+    jid=$(this).parent().parent().attr('id');$summa=+$(".sum"+jid).html();
+    $nkirit=+$(".nkirit"+jid).val();$pkirit=+$(".pkirit"+jid).val();$bkirit=+$(".bkirit"+jid).val();
+    if($nkirit+$pkirit+$bkirit==''){alert('Summa kiritilmagan');exit;}
+    if($nkirit+$pkirit+$bkirit>$summa){alert('Summa no`to`gri');exit;}
+    if($bkirit>0 && $nkirit+$pkirit+$bkirit!=$summa){alert('Summa teng emas');exit;}
+    $.ajax({
+        url: '<?php echo Yii::$app->request->baseUrl. '/site/nokboss'?>',
+        type: 'POST',
+        data: {oper:"taqsimlash",jid:jid,summa:$summa,nkirit:$nkirit,pkirit:$pkirit,bkirit:$bkirit},
+        success: function(data){
+            if($bkirit>0){
+                $('.btxt'+jid).text($bkirit);$('.ntxt'+jid).text($nkirit);$('.ptxt'+jid).text($pkirit);
+                $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
+                return true;
             }
-            ,error: function(){
-                alert("xatolik yuz berdi !!!");
+            if($nkirit>0){
+                $('.ntxt'+jid).text($nkirit);$('.ptxt'+jid).text($summa-$nkirit);$('.btxt'+jid).text('');
+                $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
             }
-        });
+            if($pkirit>0){
+                $('.ptxt'+jid).text($pkirit);$('.ntxt'+jid).text($summa-$pkirit);$('.btxt'+jid).text('');
+                $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
+            }
+            
+            //alert($bu);
+        }
+        ,error: function(){
+            alert("xatolik yuz berdi !!!");
+        }
     });
-    $('.npb').on('click', function(e){
-        e.preventDefault();
-        jid=$(this).parent().parent().attr('id');
-        $bu=($(this).html());
-        $.ajax({
-            url: '<?php echo Yii::$app->request->baseUrl. '/site/nokboss' ?>',
-            type: 'POST',
-            data: {oper:$bu,jid:jid,summa:$(".sum"+jid).html(),nkirit:$(".nkirit"+jid).val(),pkirit:$(".pkirit"+jid).val(),bkirit:$(".bkirit"+jid).val()},
-            success: function(data){
-                if($bu==="Naqd"){
-                    $('.ntxt'+jid).text($(".sum"+jid).html());$('.ptxt'+jid).text('');$('.btxt'+jid).text('');
-                }
-                if($bu==="Plastik"){
-                    $('.ptxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.btxt'+jid).text('');
-                }
-                if($bu==="Bank"){
-                    $('.btxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.ptxt'+jid).text('');
-                }
-                //alert($bu);
+});
+$('.npb').on('click', function(e){
+    e.preventDefault();
+    jid=$(this).parent().parent().attr('id');
+    $bu=($(this).html());
+    $.ajax({
+        url: '<?php echo Yii::$app->request->baseUrl. '/site/nokboss' ?>',
+        type: 'POST',
+        data: {oper:$bu,jid:jid,summa:$(".sum"+jid).html(),nkirit:$(".nkirit"+jid).val(),pkirit:$(".pkirit"+jid).val(),bkirit:$(".bkirit"+jid).val()},
+        success: function(data){
+            if($bu==="Naqd"){
+                $('.ntxt'+jid).text($(".sum"+jid).html());$('.ptxt'+jid).text('');$('.btxt'+jid).text('');
             }
-            ,error: function(){
-                alert("xatolik yuz berdi !!!");
+            if($bu==="Plastik"){
+                $('.ptxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.btxt'+jid).text('');
             }
-        });
+            if($bu==="Bank"){
+                $('.btxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.ptxt'+jid).text('');
+            }
+            //alert($bu);
+        }
+        ,error: function(){
+            alert("xatolik yuz berdi !!!");
+        }
     });
-	function do_ajax_fnc(img,mid,flag,divname,och){
-	  	divel = document.getElementById(divname);
-		//if (!divel){return;}
-		if (divel.style.visibility == 'visible') {
-		    divel.style.visibility = 'hidden';
-		    divel.style.display = 'none';
-		    img.src = '/images/down.png';
-		} else {
-		 	divel.style.visibility = 'visible';
-			divel.style.display = 'block';
-			img.src = '/images/up.png';
-		}
-		if (och == 'N') {
-		    divel.style.visibility = 'hidden';
-		    divel.style.display = 'none';
-		    img.src = '/images/down.png';
-		}
-        if (och == 'Y') {
-		 	divel.style.visibility = 'visible';
-			divel.style.display = 'block';
-			img.src = '/images/up.png';
-		}
-		//if (divel.innerHTML == '') {
-			url = "/site/divlistlk";
-            //doajaxpost(divname,'Iltimos, bir oz kuting ...',mid,flag,url);
-		//}
+});
+function do_ajax_fnc(img,mid,flag,divname,och){
+    divel = document.getElementById(divname);
+    //if (!divel){return;}
+    if (divel.style.visibility == 'visible') {
+        divel.style.visibility = 'hidden';
+        divel.style.display = 'none';
+        img.src = '/images/down.png';
+    } else {
+        divel.style.visibility = 'visible';
+        divel.style.display = 'block';
+        img.src = '/images/up.png';
     }
+    if (och == 'N') {
+        divel.style.visibility = 'hidden';
+        divel.style.display = 'none';
+        img.src = '/images/down.png';
+    }
+    if (och == 'Y') {
+        divel.style.visibility = 'visible';
+        divel.style.display = 'block';
+        img.src = '/images/up.png';
+    }
+    //if (divel.innerHTML == '') {
+        url = "/site/divlistlk";
+        //doajaxpost(divname,'Iltimos, bir oz kuting ...',mid,flag,url);
+    //}
+}
 </script>
