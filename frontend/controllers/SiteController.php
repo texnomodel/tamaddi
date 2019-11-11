@@ -820,16 +820,18 @@ public function actionTxfdf()
         }
         if(Yii::$app->request->post('oper'))   {return 'ok';}
         if(Yii::$app->request->post('taqsimlash'))   {return 'ok';}
+        
         $date = date("Y-m-d");
         $date1 = Yii::$app->request->post('date1');
         $date2 = Yii::$app->request->post('date2');
         if(!$date1) $date1 = date('Y-m-d');
         if(!$date2) $date2 = date('Y-m-d');
+        $haridorlar = ArrayHelper::map(Yii::$app->db->createCommand('SELECT id, concat(nom,telsms1) as nom FROM s_haridor WHERE id>0')->queryAll(), 'id', 'nom'); 
 
         //$query = Asos::find()->where('del_flag=1')->andWhere('tur_oper=2')->andWhere(['h_id' => $haridor])->andWhere(['between', 'sana', $date1, $date2]);
         $s = Asos::find()->where(['>','print_flag',0])->andwhere(['sana'=>$date1])->andWhere(['del_flag'=>1])->andWhere(['>','diler_id',0])->orderBy('user_id')->all();
         return $this->render('nokboss',[
-            's'=>$s
+            's'=>$s,'haridorlar' => $haridorlar
         ]);
     }  
     public function actionNokkassir()

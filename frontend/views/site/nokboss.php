@@ -100,6 +100,22 @@ foreach ($s as $item):
         <td><button class="btn btn-success">Saqlash</button></td><td></td>
         <td><i class="fa fa-refresh"  style="font-size:32px;color:red"></i></td>
     </tr>
+    <tr id="<?=$item[id]?>">
+        <td>Mijoz</td><td></td>
+        <td>
+        <?php
+        echo \kartik\select2\Select2::widget([
+            'name' => 'haridor',
+            'data' => $haridorlar,
+            'value'=>$item['h_id'],
+            'options' => ['placeholder' => 'Haridor nomi...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ])
+        ?>
+</select></td>
+    </tr>
 </table>
 <table class="table table-bordered">
 	<tr><td>Nomi</td><td>Soni</td><td>Narxi</td><td>Summasi</td><tr>
