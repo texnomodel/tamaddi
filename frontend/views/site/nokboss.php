@@ -35,17 +35,15 @@ $date = date('Y-m-d');
 
 <div  style="text-align: center;margin: 2px; background-color: rgba(43,106,246,0.77);">
 <table class="table table-bordered" id="users">
-<tr><th>Стол</th><th>Чек №</th><th>Сана</th><th>Қат-ор</th><th>Жами</th><th>%</th></tr>
+<tr><th>Стол</th><th>Чек №</th><th>Сана</th>><th>Жами</th><th>%</th></tr>
 <?php
 $i = 0;$summa = 0;$summaJami = 0;
 foreach ($s as $item):
 ?>
 <tr style="background-color:#B6E8F8;" id="<?=$item['id'];?>" class="chekqator-<?=$item['id'];?>">
   <td>
-    <?php \yii\widgets\ActiveForm::begin(['action'=>['/site/kun']])?>
         <input type="text" value="<?=$item->id?>" name="asosid" hidden>
         <input type="text" value="<?=$item->diler_id?>" name="dilerid" hidden>
-        <button class="btn btn-info form-control"  style="color: white">
            <?php
            $i++;$summa = $summa + $item['summa'];
            //$summaJami = $summaJami + $item['summa_ch'];
@@ -53,16 +51,15 @@ foreach ($s as $item):
 
            $user = user::find()->where(['id'=>$item->user_id])->one();?>
 
-           <?=$nom['nom']?></button><?=$user['username']?>
-           <?php
-           echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divlk$item[id]')\"/>";
-           ?>
+           <?=$nom['nom']?><?=$user['username']?>
   </td>
   <td>
     <input type="text" value="<?=$nom->nom?>" name="stol" hidden>
      <input type="text" value="<?=$item->summa_ch?>" name="summa_ch" hidden>
-    <?php \yii\widgets\ActiveForm::end()?>
     <?=$item['diler_id']?>
+    <?php
+           echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divlk$item[id]')\"/>";
+           ?>
   </td>
   <td>
     <?=$item['changedate']?>
@@ -164,7 +161,7 @@ $('.fa-refresh').on('click', function(e){
                 $('.ptxt'+jid).text($pkirit);$('.ntxt'+jid).text($summa-$pkirit);$('.btxt'+jid).text('');
                 $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
             }
-            
+
             //alert($bu);
         }
         ,error: function(){
