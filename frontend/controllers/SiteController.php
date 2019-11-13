@@ -101,7 +101,7 @@ class SiteController extends Controller
         $mod->kol_ost = Yii::$app->request->post('idsup');$mod->kol_in_ost = Yii::$app->request->post('idsup');
         $mod->user_id=Yii::$app->getUser()->id;
         $mod->save();
-        
+
         return   Yii::$app->request->post('asosid');
     }
     public function actionTovaredit()
@@ -133,7 +133,7 @@ public function actionTxfdf()
         AsosSlave::updateAll(['kol_ost'=> $kol_ost1],['id'=>$s_id_old]);
         AsosSlave::updateAll(['kol'=> $kol_new,'summa'=> 'sotish*'.$kol_new,'summa_all'=> 'sotish*'.$kol_new],['id'=>$s_id_new]);
         return $kol_ost1;
-    }    
+    }
     public function actionIndex()
     {
         $query = AsosSlave::find()->select('asos_slave.id as ids,asos_slave.sotish as sot,asos_slave.sotish_in as sotin,asos_slave.kol_ost as kns,asos_slave.kol_in_ost as kolin,s_tovar.nom_sh,s_tovar.nom, s_tovar.id as idt, s_tovar.kol_in as tkol_in')
@@ -196,7 +196,7 @@ public function actionTxfdf()
     public function actionKabina(){
 
     Asos::deleteAll(['id'=>Yii::$app->request->post('delqil')]);
-    
+
     $model = \frontend\models\SMobil::find()->orderBy('qavat,nn')->all();
 
         return $this->render('kabina',[
@@ -314,7 +314,7 @@ public function actionTxfdf()
      */
      public function actionUpdate(){
 
-           
+
             $asos =Yii::$app->request->post('assosiy');
      		$ichki =Yii::$app->request->post('ichki');
      		 $sotil = AsosSlave::find()->where(['id'=>Yii::$app->request->post('idup')])->andWhere(['del_flag'=>1])->one();
@@ -333,7 +333,7 @@ public function actionTxfdf()
 
 
     public function actionKarzina(){
-         
+
         $kat=Yii::$app->request->post('kat');
 
 
@@ -439,14 +439,14 @@ public function actionTxfdf()
            $query = AsosSlave::find()->select('asos_slave.id as ids,asos_slave.sotish as sot,asos_slave.sotish_in as sotin,asos_slave.kol_ost as kns,asos_slave.kol_in_ost as kolin,s_tovar.nom as nom,s_tovar.nom_sh as nom_sh, s_tovar.id as idt, s_tovar.kol_in as tkol_in,s_tovar.kat')
                 ->from('asos_slave,asos,s_tovar')
                 ->where('s_tovar.kat = '.$kat.' and asos.id = asos_slave.asos_id and asos_slave.del_flag = 1 and (asos.tur_oper=1 or asos.tur_oper=4 or asos.tur_oper=5) and (asos_slave.kol_ost>0 or asos_slave.kol_in_ost>0) and s_tovar.id = asos_slave.tovar_id')->orderBy('s_tovar.papka,s_tovar.nom')->all();
-                   
-       
+
+
 
 
        }
        else {
 
-        if(Yii::$app->getUser()->identity->ustama==1) 	
+        if(Yii::$app->getUser()->identity->ustama==1)
         	{$ustama='(asos_slave.sotish+s_tovar.ustama)';}	else {$ustama='asos_slave.sotish';}
              $query = AsosSlave::find()->select('s_papka.nom as papkanom,s_tovar.papka as papka,polka,asos_slave.id as ids,'.$ustama.'  as sot,asos_slave.sotish_in as sotin,asos_slave.kol_ost as kns,asos_slave.kol_in_ost as kolin,s_tovar.nom_sh as nom_sh,s_tovar.nom as nom, s_tovar.id as idt, s_tovar.kol_in as tkol_in,s_tovar.kat')
                 ->from('asos_slave,asos,s_tovar')
@@ -517,7 +517,7 @@ public function actionTxfdf()
             $cheg_n = round($sum_naqd-$sum_naqd_ch,-2);
             $summa_ch = $sum_naqd_ch;
             date_default_timezone_set('Asia/Tashkent');
-            
+
             SClient::updateAll(['garaj' => $ap['garaj']+1], ['id'=>Yii::$app->getUser()->identity->client_id]);
             Asos::updateAll(['changedate' => date("Y-m-d H:i:s"),'sum_plast_ch' => 0,'sum_epos_ch' => 0,'sum_naqd_ch' => 0,'sum_epos' => 0,'sum_plastik' => 0,'sum_naqd' => $sum_naqd,'sum_naqd_ch' => $sum_naqd_ch,'cheg_n' => $cheg_n,'summa_ch' => $sum_naqd_ch,'xizmat' => $xizmat,'diler_id' => $ap['garaj']+1,'print_flag' => 1,'kol' => $i,'summa' => $n], ['id' => $andnac]);
             AsosSlave::updateAll(['zakaz_see'=>3],['asos_id'=>$andnac,'zakaz_see'=>1]);
@@ -647,12 +647,12 @@ public function actionTxfdf()
 
         $dataProvider = new SqlDataProvider([
             'sql' => 'SELECT s.kol_ost as kolOost, z.nom as znom,d.nom as dnom,s.kol_ost*s.sena as q,s.kol_in_ost*s.sena_in as q_in, s.kol_ost*s.sena+s.kol_in_ost*s.sena_in as q_all,s.kol*s.sotish+s.kol_in*s.sotish_in as sotiladi,s.*,t.nom as s_tovar,z.nom as s_zavod,d.nom as s_diler
-            FROM asos a,asos_slave s,s_tovar t,s_zavod z,s_diler d 
+            FROM asos a,asos_slave s,s_tovar t,s_zavod z,s_diler d
             where (a.tur_oper=1 or a.tur_oper=4 or a.tur_oper=5)
-            
+
             and d.id=a.diler_id and z.id=t.zavod_id and t.id=s.tovar_id
             and a.id=s.asos_id and s.del_flag=1
-            
+
             order by t.nom,s.srok',
             'sort' => [
                 'attributes' => [],
@@ -793,18 +793,36 @@ public function actionTxfdf()
     }
     public function actionNokboss()
     {
-        $summa=Yii::$app->request->post('summa');$jid=Yii::$app->request->post('jid');
+        $summa=+Yii::$app->request->post('summa');$jid=Yii::$app->request->post('jid');
+        $qkirit=+Yii::$app->request->post('qkirit');
+        $qtxt=+Yii::$app->request->post('qtxt');
+        if($qtxt>0){
+            Asos::updateAll(['qarz_summa'=>0],['id'=>$jid]);
+        }
+        else
+        {
+            Asos::updateAll(['qarz_summa'=>$summa],['id'=>$jid]);
+        }
+
+        if($qkirit!=0){
+            if($qkirit>0)
+            {
+                Asos::updateAll(['qarz_summa'=>$qkirit],['id'=>$jid]);
+            }
+            else
+            {
+                Asos::updateAll(['qarz_summa'=>$summa+$qkirit],['id'=>$jid]);
+            }
+        }
         if(Yii::$app->request->post('oper')=="Naqd"){
             Asos::updateAll(['sum_naqd_ch'=>$summa,'sum_plast_ch'=>0,'sum_epos_ch'=>0],['id'=>$jid]);
-            
         }
         if(Yii::$app->request->post('oper')=="Plastik"){
             Asos::updateAll(['sum_naqd_ch'=>0,'sum_plast_ch'=>$summa,'sum_epos_ch'=>0],['id'=>$jid]);
-           
         }
         if(Yii::$app->request->post('oper')=="Bank"){
             Asos::updateAll(['sum_naqd_ch'=>0,'sum_plast_ch'=>0,'sum_epos_ch'=>$summa],['id'=>$jid]);
-            
+
         }
         if(Yii::$app->request->post('oper')=="taqsimlash"){
             $nkirit=Yii::$app->request->post('nkirit');$nkirit=+$nkirit;
@@ -816,24 +834,24 @@ public function actionTxfdf()
             }
 
             //Asos::updateAll(['sum_naqd_ch'=>$summa,'sum_plast_ch'=>$summa,'sum_epos_ch'=>$summa],['id'=>$jid]);
-            
+
         }
         if(Yii::$app->request->post('oper'))   {return 'ok';}
         if(Yii::$app->request->post('taqsimlash'))   {return 'ok';}
-        
+
         $date = date("Y-m-d");
         $date1 = Yii::$app->request->post('date1');
         $date2 = Yii::$app->request->post('date2');
         if(!$date1) $date1 = date('Y-m-d');
         if(!$date2) $date2 = date('Y-m-d');
-        $haridorlar = ArrayHelper::map(Yii::$app->db->createCommand('SELECT id, concat(nom,telsms1) as nom FROM s_haridor WHERE id>0')->queryAll(), 'id', 'nom'); 
+        $haridorlar = ArrayHelper::map(Yii::$app->db->createCommand('SELECT id, concat(nom,telsms1) as nom FROM s_haridor WHERE id>0')->queryAll(), 'id', 'nom');
 
         //$query = Asos::find()->where('del_flag=1')->andWhere('tur_oper=2')->andWhere(['h_id' => $haridor])->andWhere(['between', 'sana', $date1, $date2]);
         $s = Asos::find()->where(['>','print_flag',0])->andwhere(['sana'=>$date1])->andWhere(['del_flag'=>1])->andWhere(['>','diler_id',0])->orderBy('user_id')->all();
         return $this->render('nokboss',[
             's'=>$s,'haridorlar' => $haridorlar
         ]);
-    }  
+    }
     public function actionNokkassir()
     {
         $date = date("Y-m-d");
@@ -847,7 +865,7 @@ public function actionTxfdf()
         return $this->render('nokkassir',[
             's'=>$s
         ]);
-    }  
+    }
     public function actionTovarkun()
     {
         $date = date("Y-m-d");
@@ -879,7 +897,7 @@ public function actionTxfdf()
         return $this->render('tovarkunuser',[
             's'=>$s
         ]);
-    }     
+    }
     public function actionOfisiant()
     {
         $date = date("Y-m-d");
@@ -887,12 +905,12 @@ public function actionTxfdf()
         $date2 = Yii::$app->request->post('date2');
         if(!$date1) $date1 = date('Y-m-d');
         if(!$date2) $date2 = date('Y-m-d');
-        
+
         $s = Asos::find()->select('user_id,count(id) as kol,sum(summa_ch) as summa_ch')->where(['sana'=>$date1])->andWhere(['del_flag'=>1])->andWhere(['>','diler_id',0])->groupBy('user_id')->all();
         return $this->render('ofisiant',[
             's'=>$s
         ]);
-    }    
+    }
     public function actionKun()
     {
         $date = date("Y-m-d");

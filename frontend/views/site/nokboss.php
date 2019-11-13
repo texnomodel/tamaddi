@@ -35,7 +35,7 @@ $date = date('Y-m-d');
 
 <div  style="text-align: center;margin: 2px; background-color: rgba(43,106,246,0.77);">
 <table class="table table-bordered" id="users">
-<tr><th>Стол</th><th>Чек №</th><th>Сана</th>><th>Жами</th><th>%</th></tr>
+<tr><th>Стол</th><th>Чек №</th><th>Сана</th><th>Жами<br>сум, %</th></tr>
 <?php
 $i = 0;$summa = 0;$summaJami = 0;
 foreach ($s as $item):
@@ -51,12 +51,12 @@ foreach ($s as $item):
 
            $user = user::find()->where(['id'=>$item->user_id])->one();?>
 
-           <?=$nom['nom']?><?=$user['username']?>
+           <?=$nom['nom']?><br><?=$user['username']?>
   </td>
   <td>
     <input type="text" value="<?=$nom->nom?>" name="stol" hidden>
      <input type="text" value="<?=$item->summa_ch?>" name="summa_ch" hidden>
-    <?=$item['diler_id']?>
+    <?=$item['diler_id']?><br>
     <?php
            echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divlk$item[id]')\"/>";
            ?>
@@ -74,9 +74,8 @@ foreach ($s as $item):
     $summa_all = round($summa_all,-2);
 	$summaJami = $summaJami + $summa_all;
   ?>
-  <td><?=$kol?></td>
-  <td class="sum<?=$item[id]?>"><?=$summa_all?></td>
-  <td><?=$item['xizmat_foiz']?></td>
+  <td><span class="sum<?=$item[id]?>"><?=$summa_all?></span><br><?=$item['xizmat_foiz']?> %</td>
+
 </tr>
 <tr><td colspan=11>
 <div id="divlk<?=$item[id]?>" style="visibility:hidden;display:none;background-color:#B6E8F8 ;">
@@ -98,8 +97,8 @@ foreach ($s as $item):
         <td><i class="fa fa-refresh"  style="font-size:32px;color:red"></i></td>
     </tr>
     <tr id="<?=$item[id]?>">
-        <td>Mijoz</td><td></td>
-        <td>
+        <td>Mijoz</td>
+        <td colspan="2">
         <?php
         echo \kartik\select2\Select2::widget([
             'name' => 'haridor',
@@ -113,6 +112,12 @@ foreach ($s as $item):
         ?>
 </select></td>
     </tr>
+    <tr id="<?=$item[id]?>">
+        <td><a class="npb" href="#">Qarz</a></td><td><span class="qtxt<?=$item[id]?>"><?=$item['qarz_summa']?></span></td>
+        <td><input type="number" name="np" value="" class="qkirit<?=$item[id]?>"></td>
+    </tr>
+    <tr><td><div class="mq<?=$item[id]?>"></div></td></tr>
+
 </table>
 <table class="table table-bordered">
 	<tr><td>Nomi</td><td>Soni</td><td>Narxi</td><td>Summasi</td><tr>
@@ -132,21 +137,26 @@ foreach ($s as $item):
 ?>
 
 <?php endforeach;?>
-<th>Жами</th><th><?=$i?></th><th></th><th></th><th><?=$summaJami?></th>
+<th>Жами</th><th><?=$i?></th><th></th><th><?=$summaJami?></th>
 </table>
 </div>
 <script type="text/javascript">
 $('.fa-refresh').on('click', function(e){
     e.preventDefault();
-    jid=$(this).parent().parent().attr('id');$summa=+$(".sum"+jid).html();
-    $nkirit=+$(".nkirit"+jid).val();$pkirit=+$(".pkirit"+jid).val();$bkirit=+$(".bkirit"+jid).val();
-    if($nkirit+$pkirit+$bkirit==''){alert('Summa kiritilmagan');exit;}
+    jid=$(this).parent().parent().attr('id');$summa=+$(".sum"+jid).html();  // jid=455
+    $nkirit=$(".nkirit"+jid).val(); // $nkirit=$(".nkirit455").val();nkirit  узгарувчига унг томондаги киймат узатилади.
+    nkirit=++$nkirit; //   тестни сонга айлантириш
+    $pkirit=+$(".pkirit"+jid).val();$bkirit=+$(".bkirit"+jid).val();
+    $qkirit=+$(".qkirit"+jid).val();
+
+    if($nkirit+$pkirit+$bkirit+$qkirit==''){alert('Summa kiritilmagan');exit;}
     if($nkirit+$pkirit+$bkirit>$summa){alert('Summa no`to`gri');exit;}
     if($bkirit>0 && $nkirit+$pkirit+$bkirit!=$summa){alert('Summa teng emas');exit;}
+
     $.ajax({
         url: '<?php echo Yii::$app->request->baseUrl. '/site/nokboss'?>',
         type: 'POST',
-        data: {oper:"taqsimlash",jid:jid,summa:$summa,nkirit:$nkirit,pkirit:$pkirit,bkirit:$bkirit},
+        data: {oper:"taqsimlash",jid:jid,summa:$summa,nkirit:$nkirit,pkirit:$pkirit,bkirit:$bkirit,qkirit:$qkirit},
         success: function(data){
             if($bkirit>0){
                 $('.btxt'+jid).text($bkirit);$('.ntxt'+jid).text($nkirit);$('.ptxt'+jid).text($pkirit);
@@ -162,6 +172,22 @@ $('.fa-refresh').on('click', function(e){
                 $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
             }
 
+            if($qkirit!=0){
+                if($qkirit>0)
+                {
+                    $('.qtxt'+jid).text($qkirit);
+                }
+                else
+                {
+                    //alert($qkirit);
+
+                    $('.qtxt'+jid).text($summa+$qkirit);
+                }
+
+                $('.qkirit'+jid).val('');
+            }
+
+
             //alert($bu);
         }
         ,error: function(){
@@ -171,24 +197,40 @@ $('.fa-refresh').on('click', function(e){
 });
 $('.npb').on('click', function(e){
     e.preventDefault();
-    jid=$(this).parent().parent().attr('id');
+    jid=$(this).parent().parent().attr('id'); //15
+    $summa=+$(".sum"+jid).html();$qarz=+$(".qtxt"+jid).html();
     $bu=($(this).html());
+
     $.ajax({
         url: '<?php echo Yii::$app->request->baseUrl. '/site/nokboss' ?>',
         type: 'POST',
-        data: {oper:$bu,jid:jid,summa:$(".sum"+jid).html(),nkirit:$(".nkirit"+jid).val(),pkirit:$(".pkirit"+jid).val(),bkirit:$(".bkirit"+jid).val()},
-        success: function(data){
+        data: {oper:$bu,jid:jid,summa:$(".sum"+jid).html(),qtxt:$qarz},
+        success:
+         function(data){
+            if($bu==="Qarz"){
+                if( $qarz == 0 )
+                {
+                    $('.qtxt'+jid).text($summa);
+                }
+                else
+                {
+                    $('.qtxt'+jid).text('0');
+                }
+            }
             if($bu==="Naqd"){
                 $('.ntxt'+jid).text($(".sum"+jid).html());$('.ptxt'+jid).text('');$('.btxt'+jid).text('');
             }
+
             if($bu==="Plastik"){
                 $('.ptxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.btxt'+jid).text('');
             }
             if($bu==="Bank"){
                 $('.btxt'+jid).text($(".sum"+jid).html());$('.ntxt'+jid).text('');$('.ptxt'+jid).text('');
             }
-            //alert($bu);
+
+            //alert($bu)
         }
+
         ,error: function(){
             alert("xatolik yuz berdi !!!");
         }
@@ -216,9 +258,6 @@ function do_ajax_fnc(img,mid,flag,divname,och){
         divel.style.display = 'block';
         img.src = '/images/up.png';
     }
-    //if (divel.innerHTML == '') {
-        url = "/site/divlistlk";
-        //doajaxpost(divname,'Iltimos, bir oz kuting ...',mid,flag,url);
-    //}
+
 }
 </script>
