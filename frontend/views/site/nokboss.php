@@ -120,8 +120,6 @@ foreach ($s as $item):
    Nomi:<input type="text" name="mnomi" value="" >
     Tel:<input type="number" name="telnomer" value="">
     <button id="saqla" class="btn btn-success">Saqlash</button>
-    <button <?php echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divmijoz$item[id]')\"/>"?>;
- class="btn btn-danger">Bekor qilish</button>
    </div>
 </td>
 </tr>
