@@ -29,10 +29,7 @@ $date = date('Y-m-d');
         </div>
         <?php ActiveForm::end()?>
     </div>
-
-
 </div>
-
 <div  style="text-align: center;margin: 2px; background-color: rgba(43,106,246,0.77);">
 <table class="table table-bordered" id="users">
 <tr><th>Стол</th><th>Чек №</th><th>Сана</th><th>Жами<br>сум, %</th></tr>
