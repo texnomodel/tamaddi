@@ -97,8 +97,9 @@ foreach ($s as $item):
         <td><i class="fa fa-refresh"  style="font-size:32px;color:red"></i></td>
     </tr>
     <tr id="<?=$item[id]?>">
-        <td>Mijoz</td>
-        <td colspan="2">
+        <td>Mijoz <i class = "fa fa-plus"></i> <?php echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divmijoz$item[id]')\"/>"?>;
+           </td>
+        <td colspan="4">
         <?php
         echo \kartik\select2\Select2::widget([
             'name' => 'haridor',
@@ -109,8 +110,21 @@ foreach ($s as $item):
                 'allowClear' => true
             ],
         ])
+        
         ?>
-</select></td>
+ </select>
+ </td>
+ <tr>
+ <td colspan="4"> 
+  <div id="divmijoz<?=$item[id]?>" style="visibility:hidden;display:none;background-color:#B6E8F8 ;">
+   Nomi:<input type="text" name="mnomi" value="" >
+    Tel:<input type="number" name="telnomer" value="">
+    <button id="saqla" class="btn btn-success">Saqlash</button>
+    <button <?php echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divmijoz$item[id]')\"/>"?>;
+ class="btn btn-danger">Bekor qilish</button>
+   </div>
+</td>
+</tr>
     </tr>
     <tr id="<?=$item[id]?>">
         <td><a class="npb" href="#">Qarz</a></td><td><span class="qtxt<?=$item[id]?>"><?=$item['qarz_summa']?></span></td>
@@ -145,7 +159,7 @@ $('.fa-refresh').on('click', function(e){
     e.preventDefault();
     jid=$(this).parent().parent().attr('id');$summa=+$(".sum"+jid).html();  // jid=455
     $nkirit=$(".nkirit"+jid).val(); // $nkirit=$(".nkirit455").val();nkirit  узгарувчига унг томондаги киймат узатилади.
-    nkirit=++$nkirit; //   тестни сонга айлантириш
+    nkirit=+$nkirit; //   тестни сонга айлантириш
     $pkirit=+$(".pkirit"+jid).val();$bkirit=+$(".bkirit"+jid).val();
     $qkirit=+$(".qkirit"+jid).val();
 
@@ -166,10 +180,12 @@ $('.fa-refresh').on('click', function(e){
             if($nkirit>0){
                 $('.ntxt'+jid).text($nkirit);$('.ptxt'+jid).text($summa-$nkirit);$('.btxt'+jid).text('');
                 $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
+                return true;
             }
             if($pkirit>0){
                 $('.ptxt'+jid).text($pkirit);$('.ntxt'+jid).text($summa-$pkirit);$('.btxt'+jid).text('');
                 $('.nkirit'+jid).val('');$('.pkirit'+jid).val('');$('.bkirit'+jid).val('');
+                return true;
             }
 
             if($qkirit!=0){

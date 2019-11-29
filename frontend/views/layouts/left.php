@@ -2,6 +2,7 @@
 use yii\bootstrap\ActiveForm;
 use frontend\models\Asos;
 use frontend\models\User;
+use frontend\models\Haridor;
 $this->title="";
 ?>
 <aside class="main-sidebar" style="background-color: rgba(68,108,246,0.77)">
@@ -14,7 +15,7 @@ $this->title="";
         <!-- search form -->
 
         <?php
-        if(Yii::$app->getUser()->id == 34 )
+        if(Yii::$app->getUser()->id != 34 )
         {
 
            echo dmstr\widgets\Menu::widget(
@@ -27,7 +28,7 @@ $this->title="";
                     ['label' => "Официант кеcимида", 'icon' => 'clock-o', 'url' => ['/site/ofisiant']],
                     ['label' => "Товарлар кеcимида", 'icon' => 'clock-o', 'url' => ['/site/tovarkun']],
                     ['label' => "Касса амалиёти", 'icon' => 'money', 'url' => ['/site/nokkassir']],
-
+                    ['label' => "Харидорлар", 'icon' => 'avatar', 'url' => ['/site/haridor']],
                     ['label' => "Рўйхатдан ўтиш", 'icon' => 'plus', 'url' => ['/site/signup']],
 
 

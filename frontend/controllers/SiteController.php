@@ -3,6 +3,7 @@ namespace frontend\controllers;
 use frontend\models\SMobil;
 use frontend\models\Asos;
 use frontend\models\SPapka;
+use frontend\models\Haridor;
 use frontend\models\AsosSlave;
 use frontend\models\Pl;
 use frontend\models\SClient;
@@ -863,6 +864,14 @@ public function actionTxfdf()
         //$query = Asos::find()->where('del_flag=1')->andWhere('tur_oper=2')->andWhere(['h_id' => $haridor])->andWhere(['between', 'sana', $date1, $date2]);
         $s = Asos::find()->where(['>','print_flag',0])->andwhere(['sana'=>$date1])->andWhere(['del_flag'=>1])->andWhere(['>','diler_id',0])->orderBy('user_id')->all();
         return $this->render('nokkassir',[
+            's'=>$s
+        ]);
+    }
+    public function actionHaridor()
+    {
+        //$query = Asos::find()->where('del_flag=1')->andWhere('tur_oper=2')->andWhere(['h_id' => $haridor])->andWhere(['between', 'sana', $date1, $date2]);
+        $s = Haridor::find()->Where(['del_flag'=>1])->orderBy('id')->all();
+        return $this->render('haridor',[
             's'=>$s
         ]);
     }
