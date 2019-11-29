@@ -61,7 +61,7 @@ foreach ($s as $item):
   <td>
     <?=$item['changedate']?>
   </td>
-	<?php
+    <?php
   	$ss = AsosSlave::find()->where(['del_flag'=>1])->where('asos_id='.$item['id'])->all();
 	$kol=0;$summa_all=0;
 	foreach ($ss as $tem) {
@@ -71,7 +71,9 @@ foreach ($s as $item):
     $summa_all = round($summa_all,-2);
 	$summaJami = $summaJami + $summa_all;
   ?>
-  <td><span class="sum<?=$item[id]?>"><?=$summa_all?></span><br><?=$item['xizmat_foiz']?> %</td>
+  <td><span class="sum<?=$item[id]?>">
+
+  <?=$summa_all?></span><br><?=$item['xizmat_foiz']?> %</td>
 
 </tr>
 <tr><td colspan=11>
@@ -107,16 +109,16 @@ foreach ($s as $item):
                 'allowClear' => true
             ],
         ])
-        
+
         ?>
  </select>
  </td>
- <tr>
- <td colspan="4"> 
+ <tr id="<?=$item[id]?>">
+ <td colspan="4">
   <div id="divmijoz<?=$item[id]?>" style="visibility:hidden;display:none;background-color:#B6E8F8 ;">
-   Nomi:<input type="text" name="mnomi" value="" >
-    Tel:<input type="number" name="telnomer" value="">
-    <button id="saqla" class="btn btn-success">Saqlash</button>
+   Nomi:<input type="text" name="mnomi" value="" class="fio<?=$item[id]?>" >
+    Tel:<input type="number" name="telnomer" value="" class="tel<?=$item[id]?>" >
+    <button id="qosh" class="btn btn-success">Qo'shish</button>
    </div>
 </td>
 </tr>
@@ -150,6 +152,32 @@ foreach ($s as $item):
 </table>
 </div>
 <script type="text/javascript">
+$('#qosh').on('click', function(e){
+    e.preventDefault();
+    jid=$(this).parent().parent().parent().attr('id');  // jid=455
+    //alert(jid);
+    $fio=$(".fio"+jid).val(); // $nkirit=$(".nkirit455").val();nkirit  узгарувчига унг томондаги киймат узатилади.
+     //   тестни сонга айлантириш
+    $tel=$(".tel"+jid).val();
+
+    if($fio==''){alert('Haridor nomi kiritilmagan !!!');exit;}
+    if($tel==''){alert('Haridor telefon raqami kiritilmagan !!!');exit;}
+
+    $.ajax({
+        url: '<?php echo Yii::$app->request->baseUrl. '/site/mijozqosh'?>',
+        type: 'POST',
+        data: {fio:$fio,tel:$tel},
+        success: function(data){
+
+
+
+            alert(data);
+        }
+        ,error: function(){
+            alert("xatolik yuz berdi !!!");
+        }
+    });
+});
 $('.fa-refresh').on('click', function(e){
     e.preventDefault();
     jid=$(this).parent().parent().attr('id');$summa=+$(".sum"+jid).html();  // jid=455
