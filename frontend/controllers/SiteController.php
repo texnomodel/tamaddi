@@ -792,21 +792,26 @@ public function actionTxfdf()
             's'=>$s
         ]);
     }
+    public function actionMijozchange()
+    {
+        $haridor=Yii::$app->request->post('haridor');
+        $jid=Yii::$app->request->post('jid');
+
+        Asos::updateAll(['h_id'=>$haridor],['id'=>$jid]);
+        return $haridor;
+    }
      public function actionMijozqosh()
     {
-        //$fio=Yii::$app->request->post('fio');
-      //  $tel=Yii::$app->request->post('tel');
-
-         $mod = new Haridor();
-         $mod->nom = Yii::$app->request->post('fio');
-         $mod->telsms1 = Yii::$app->request->post('tel');
-         $mod->save();
-
-         //$mod->load(Yii::$app->request->post());
-         if($mod==true) 
-            return "zo'r";
-         else
-            return "Ishkal";
+        $fio=Yii::$app->request->post('fio');
+        $tel=Yii::$app->request->post('tel');
+        $jid=Yii::$app->request->post('jid');
+        $mod = new Haridor();
+        $mod->nom = $fio;
+        $mod->telsms1 = $tel;
+        $mod->save();
+        $id=$mod->id;
+        Asos::updateAll(['h_id'=>$id],['id'=>$jid]);
+        return $id;
     }
 
     public function actionNokboss()
@@ -886,10 +891,22 @@ public function actionTxfdf()
     }
     public function actionHaridor()
     {
-        //$query = Asos::find()->where('del_flag=1')->andWhere('tur_oper=2')->andWhere(['h_id' => $haridor])->andWhere(['between', 'sana', $date1, $date2]);
-        $s = Haridor::find()->Where(['del_flag'=>1])->orderBy('id')->all();
-        return $this->render('haridor',[
-            's'=>$s
+        $query = Haridor::find()->where(['del_flag'=>1]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $this->render('haridor', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionUpdateHaridor($id)
+    {
+        $model=Haridor::findOne($id);
+        if($model->load(Yii::$app->request->post()) && $model->save())
+            return $this->redirect(['haridor','id'=>$model->id]);
+        return $this->render('update-haridor',[
+            'model'=>$model,
         ]);
     }
     public function actionTovarkun()

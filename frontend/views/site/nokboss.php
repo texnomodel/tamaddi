@@ -99,10 +99,10 @@ foreach ($s as $item):
     <tr id="<?=$item[id]?>">
         <td>Mijoz <i class = "fa fa-plus"></i> <?php echo "<img id = 'img".$item['id']."' src=\"/images/down.png\" border=\"0\" style=\"cursor:pointer\" onclick=\"do_ajax_fnc(this,$item[id],$item[id],'divmijoz$item[id]')\"/>"?>;
            </td>
-        <td colspan="4">
+        <td class="har<?=$item[id]?>" colspan="4">
         <?php
         echo \kartik\select2\Select2::widget([
-            'name' => 'haridor',
+            'name' => 'haridor','id' => 'haridor',
             'data' => $haridorlar,
             'value'=>$item['h_id'],
             'options' => ['placeholder' => 'Haridor nomi...'],
@@ -153,10 +153,24 @@ foreach ($s as $item):
 </table>
 </div>
 <script type="text/javascript">
+$('#haridor').on('change', function(e){
+    $haridor=$('#haridor').val();
+    jid=$(this).parent().parent().attr('id');
+    $.ajax({
+        url: '<?php echo Yii::$app->request->baseUrl. '/site/mijozchange'?>',
+        type: 'POST',
+        data: {jid:jid,haridor:$haridor},
+        success: function(data){
+            
+        },
+        error: function(){
+          alert("xatolik yuz berdi !!!");
+        }
+    });
+});
 $('#qosh').on('click', function(e){
     e.preventDefault();
     jid=$(this).parent().parent().parent().attr('id');  // jid=455
-    //alert(jid);
     $fio=$(".fio"+jid).val(); // $nkirit=$(".nkirit455").val();nkirit  узгарувчига унг томондаги киймат узатилади.
      //   тестни сонга айлантириш
     $tel=$(".tel"+jid).val();
@@ -167,15 +181,13 @@ $('#qosh').on('click', function(e){
     $.ajax({
         url: '<?php echo Yii::$app->request->baseUrl. '/site/mijozqosh'?>',
         type: 'POST',
-        data: {fio:$fio,tel:$tel},
+        data: {jid:jid,fio:$fio,tel:$tel},
         success: function(data){
-
-
-
-            alert(data);
+            $(".har"+jid).html($fio+" "+$tel);
+           // do_ajax_fnc("img19",mid,flag,"divmijoz19",och);
         },
         error: function(){
-          alert("xatolik yuz berdi !!!");
+          alert("Xatolik yuz berdi !!!");
         }
     });
 });

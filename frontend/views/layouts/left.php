@@ -30,7 +30,8 @@ $this->title="";
                     ['label' => "Касса амалиёти", 'icon' => 'money', 'url' => ['/site/nokkassir']],
                     ['label' => "Харидорлар", 'icon' => 'avatar', 'url' => ['/site/haridor']],
                     ['label' => "Рўйхатдан ўтиш", 'icon' => 'plus', 'url' => ['/site/signup']],
-
+                    ['label' => "Ходимлар", 'icon' => 'user', 'url' => ['/s-user/index']],
+                    ['label' => "Ой давомида кечикганлар", 'icon' => 'bars', 'url' => ['/site/oy']],
 
                 ],
             ]
@@ -51,12 +52,12 @@ $this->title="";
                     ['label' => "tovar kesimida", 'icon' => 'bookmark', 'url' => ['/site/tovarkunuser']],
                     
                     ['label' => "Qarzdorlik", 'icon' => 'money', 'url' => ['/site/client-qarz']],
-//                    ['label' => "Ой давомида кечикганлар", 'icon' => 'bars', 'url' => ['/site/oy']],
+                    ['label' => "Ой давомида кечикганлар", 'icon' => 'bars', 'url' => ['/site/oy']],
 //                    ['label' => "Йил давомида кечикганлар", 'icon' => 'calendar', 'url' => ['/site/yil']],
 //                    ['label' => "Мижозлар рейтинги", 'icon' => 'users', 'url' => ['/site/klent']],
 //                    ['label' => "Назорат рейтинги", 'icon' => 'bar-chart', 'url' => ['/site/reyting']],
 //                    ['label' => "Статистика", 'icon' => 'th-list', 'url' => ['/site/statistic']],
-//					 ['label' => "Ходимлар", 'icon' => 'user', 'url' => ['/s-user/index']],
+    				['label' => "Ходимлар", 'icon' => 'user', 'url' => ['/s-user/index']],
                     ['label' => "Рўйхатдан ўтиш", 'icon' => 'plus', 'url' => ['/site/signup']],
 
 
