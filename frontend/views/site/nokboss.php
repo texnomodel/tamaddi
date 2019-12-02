@@ -5,6 +5,7 @@ use frontend\models\Asos;
 use frontend\models\AsosSlave;
 use frontend\models\User;
 use kartik\date\DatePicker;
+use frontend\models\Haridor;
 $this->title="Chek";
 $date = date('Y-m-d');
 ?>
@@ -172,9 +173,9 @@ $('#qosh').on('click', function(e){
 
 
             alert(data);
-        }
-        ,error: function(){
-            alert("xatolik yuz berdi !!!");
+        },
+        error: function(){
+          alert("xatolik yuz berdi !!!");
         }
     });
 });

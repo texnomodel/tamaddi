@@ -120,25 +120,11 @@ class Haridor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['iduz', 'kod', 'komu', 'vazir', 'obl', 'tuman', 'flag', 'active', 'user_id', 'uyu_type', 'garaj', 'garaj_turi', 'glav_id', 'client_tur', 'arendachi_kodi', 'jivoy', 'tja', 'avto', 'tez', 'stos', 'tods', 'komputer', 'printer', 'skaner', 'esp', 'telinternet', 'nik', 'edit_it', 'del_flag', 'kolin', 'iamhere', 'at91', 'tender_n', 'xizmat_n', 'disp_n', 'yaxlitlash', 'yaxlitlash_in', 'seriya', 'ichkitovar', 'lasttz_id', 'lastta_id', 'lis'], 'integer'],
-            [['tugashsana', 'changedate', 'sana', 'srok', 'tods_sana', 'sanaforma1', 'sanaoplata', 'oferta', 'ssana', 'diamhere', 'prikdate', 'tender_d', 'xizmat_d', 'disp_d', 'vaqt_in', 'vaqtout'], 'safe'],
-            [['summa', 'ost_n_sbor', 'ost_n_posh', 'foiz', 'foiz_in', 'chegirma'], 'number'],
-            [['lis'], 'required'],
-            [['nom', 'adress', 'manzil', 'prim'], 'string', 'max' => 250],
-            [['userpass', 'tel', 'gorod', 'snomer', 'prikname', 'filenom'], 'string', 'max' => 50],
-            [['indeks', 'rs', 'mr', 'flag1', 'flag2'], 'string', 'max' => 20],
-            [['boss', 'bank', 'primoferta'], 'string', 'max' => 150],
-            [['inn', 'okonh', 'telsms1', 'telsms2'], 'string', 'max' => 9],
-            [['kod_bank'], 'string', 'max' => 5],
-            [['s1'], 'string', 'max' => 12],
-            [['arendachi_nomi'], 'string', 'max' => 128],
-            [['sayt', 'email', 'masul1', 'masul2', 'kim', 'tarmoq'], 'string', 'max' => 100],
+            [['nom'], 'string', 'max' => 150],
+            [['telsms1'], 'string', 'max' => 9],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

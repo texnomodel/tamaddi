@@ -794,16 +794,19 @@ public function actionTxfdf()
     }
      public function actionMijozqosh()
     {
-        $fio=Yii::$app->request->post('fio');
-        $tel=Yii::$app->request->post('tel');
+        //$fio=Yii::$app->request->post('fio');
+      //  $tel=Yii::$app->request->post('tel');
 
-
-         $mod = new Haridor()();
+         $mod = new Haridor();
          $mod->nom = Yii::$app->request->post('fio');
          $mod->telsms1 = Yii::$app->request->post('tel');
          $mod->save();
 
-        return true;
+         //$mod->load(Yii::$app->request->post());
+         if($mod==true) 
+            return "zo'r";
+         else
+            return "Ishkal";
     }
 
     public function actionNokboss()
